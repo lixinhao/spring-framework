@@ -116,11 +116,9 @@ final class DefaultRSocketRequester implements RSocketRequester {
 			Publisher<?> publisher;
 			if (input instanceof Publisher) {
 				publisher = (Publisher<?>) input;
-			}
-			else if (adapter != null) {
+			} else if (adapter != null) {
 				publisher = adapter.toPublisher(input);
-			}
-			else {
+			} else {
 				Mono<Payload> payloadMono = Mono
 						.fromCallable(() -> encodeValue(input, ResolvableType.forInstance(input), null))
 						.map(this::firstPayload)
@@ -152,8 +150,7 @@ final class DefaultRSocketRequester implements RSocketRequester {
 						if (data != null) {
 							return Mono.fromCallable(() -> firstPayload(data))
 									.concatWith(inner.skip(1).map(PayloadUtils::createPayload));
-						}
-						else {
+						} else {
 							return inner.map(PayloadUtils::createPayload);
 						}
 					})
